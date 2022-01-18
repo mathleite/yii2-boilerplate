@@ -1,0 +1,18 @@
+#!/bin/bash
+
+if [ ! -f ".env" ]; then
+    echo "Arquivo .env não encontrado."
+    echo "Verifique se está executando apartir da raiz do projeto."
+    exit 1
+fi
+
+PHP_CONTAINER=$(grep -oP '^PHP_CONTAINER_NAME=\K.*' .env)
+TTY_DEVICE=$(tty)
+BASE=/var/www
+ARG="${@:1}"
+
+if [ "$TTY_DEVICE" == "not a tty" ] ; then
+    docker exec ${PHP_CONTAINER} ${BASE}/bin/yii ${ARG}
+else
+    docker exec -it ${PHP_CONTAINER} ${BASE}/bin/yii ${ARG}
+fi

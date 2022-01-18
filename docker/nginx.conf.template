@@ -1,0 +1,30 @@
+proxy_connect_timeout 15m;
+proxy_send_timeout 15m;
+proxy_read_timeout 15m;
+fastcgi_send_timeout 15m;
+fastcgi_read_timeout 15m;
+
+server {
+    listen 80 default_server;
+
+    error_log  /var/www/boilerplate/runtime/docker/http/api-error.log;
+    access_log /var/www/boilerplate/runtime/docker/http/api-access.log;
+
+    root /var/www/boilerplate/public/api;
+    server_name $HTTP_API_HOST;
+    index index.php index.html;
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass boilerplate_php:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+}
