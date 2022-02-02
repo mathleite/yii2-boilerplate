@@ -1,4 +1,4 @@
 *
 !.gitignore
-!api-access.log
-!api-error.log
+api-access.log
+api-error.log

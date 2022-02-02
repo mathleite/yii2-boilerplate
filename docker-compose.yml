@@ -5,7 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    tty: true
     volumes:
       - ./:/var/www/boilerplate
       - ./docker/php.ini:/usr/local/etc/php/conf.d/app-php.ini

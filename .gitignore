@@ -6,3 +6,5 @@
 
 # Environment variables
 .env
+.phpunit.result.cache
+infection.log

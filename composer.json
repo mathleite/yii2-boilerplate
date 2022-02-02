@@ -15,12 +15,18 @@
   "require-dev": {
     "yiisoft/yii2-debug": "~2.1.0",
     "yiisoft/yii2-gii": "~2.1.0",
-    "yiisoft/yii2-faker": "~2.0.0"
+    "yiisoft/yii2-faker": "~2.0.0",
+    "infection/infection": "^0.26.1",
+    "phpunit/phpunit": "^9.5"
   },
   "config": {
     "process-timeout": 1800,
     "fxp-asset": {
       "enabled": false
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "infection/extension-installer": true
     }
   },
   "repositories": [
@@ -36,7 +42,8 @@
     "post-install-cmd": [
       "cp -n .env.template .env",
       "yii\\composer\\Installer::postInstall"
-    ]
+    ],
+    "infection": "infection --threads=4"
   },
   "extra": {
     "yii\\composer\\Installer::postInstall": {
@@ -48,6 +55,18 @@
           "bin/yii": "0775"
         }
       ]
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "common\\": "src/common",
+      "console\\": "src/console",
+      "api\\": "src/api"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "test\\": "test"
     }
   }
 }
